@@ -70,7 +70,7 @@ func (c *Client) GetRepositories(ctx context.Context, namespace string, maxResul
 }
 
 // Given the repository's namespace and the repository's name, get the repository
-func GetRepository(ctx echo.Context, namespace string, name string) error {
+func (c *Client) GetRepository(ctx echo.Context, namespace string, name string) error {
 	repository := Repository{}
 	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/%s/%s/", namespace, name), nil, &repository)
 	if err != nil {
