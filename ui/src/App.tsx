@@ -15,10 +15,53 @@ export function App() {
   const [response, setResponse] = React.useState<string>();
   const ddClient = useDockerDesktopClient();
 
-  const fetchAndDisplayResponse = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/repo');
+
+  // 	// Repos routes
+	// router.GET("/repositories", c.GetRepositories)
+	// router.GET("/repository", c.GetRepository)
+	// router.POST("/repository", c.CreateRepository)
+	// router.DELETE("/repository", c.DeleteRepository)
+
+	// // Orgs routes
+	// router.GET("/organizations", c.GetOrganizations)
+	// router.GET("/organization", c.GetOrganization)
+	// router.GET("/organization", c.GetOrganization)
+
+  const getRepositories = async () => {
+    const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
   };
+
+  const getRepository = async () => {
+    const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
+    setResponse(JSON.stringify(result));
+  };
+
+  const createRepository = async () => {
+    const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
+    setResponse(JSON.stringify(result));
+  };
+
+  const deleteRepository = async () => {
+    const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryanhristovski&name=test-this');
+    setResponse(JSON.stringify(result));
+  };
+
+  const getOrganization = async () => {
+    const result = await ddClient.extension.vm?.service?.get('/organization?org_name=dockerhackathon');
+    setResponse(JSON.stringify(result));
+  };
+
+  const getOrganizations = async () => {
+    const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
+    setResponse(JSON.stringify(result));
+  };
+
+  const createOrganizations = async () => {
+    const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
+    setResponse(JSON.stringify(result));
+  };
+
 
   return (
     <>
@@ -33,20 +76,47 @@ export function App() {
         Pressing the below button will trigger a request to the backend. Its
         response will appear in the textarea.
       </Typography>
+
       <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }}>
-        <Button variant="contained" onClick={fetchAndDisplayResponse}>
-          Call backend
+        <Button variant="contained" onClick={getRepository}>
+          Get Repository
         </Button>
 
+        <Button variant="contained" onClick={getRepositories}>
+          Get Repositories
+        </Button>      
+
+        <Button variant="contained" onClick={createRepository}>
+          Create Repository
+        </Button>         
+
+        <Button variant="contained" onClick={deleteRepository}>
+          Delete Repository
+        </Button>         
+
+        <Button variant="contained" onClick={getOrganizations}>
+          Get Organizations
+        </Button>
+
+        <Button variant="contained" onClick={getOrganization}>
+          Get Organization
+        </Button>        
+
+        <Button variant="contained" onClick={createOrganizations}>
+          Create Organization
+        </Button>        
+
         <TextField
-          label="Backend response"
+          label="Orgs response"
           sx={{ width: 480 }}
           disabled
           multiline
           variant="outlined"
           minRows={5}
           value={response ?? ''}
-        />
+        />        
+
+
       </Stack>
     </>
   );
