@@ -44,15 +44,6 @@ func listen(path string) (net.Listener, error) {
 	return net.Listen("unix", path)
 }
 
-type Org struct {
-	Id         string `json:"id,omitempty"`
-	OrgName    string `json:"orgname"`
-	FullName   string `json:"full_name"`
-	Location   string `json:"location"`
-	Company    string `json:"company"`
-	DateJoined string `json:"date_joined"`
-}
-
 type Repository struct {
 	User            string `json:"user,omitempty"`
 	Name            string `json:"name"`
@@ -76,26 +67,49 @@ func (c *Client) GetRepository(ctx echo.Context) error {
 	}
 	return ctx.JSON(http.StatusOK, repository)
 }
-
 func (c *Client) CreateRepository(ctx context.Context) error {
 	repo := Repository{
 		Name:      "hackathon22",
 		Namespace: "ryanhristovski",
 	}
-	jsonrepo, err := json.Marshal(repo)
+	repoJson, err := json.Marshal(repo)
 	if err != nil {
 		return err
 	}
 
-	err = c.sendRequest(ctx, "POST", fmt.Sprintf("/repositories/"), jsonrepo, &repo)
+	err = c.sendRequest(ctx, "POST", fmt.Sprintf("/repositories/"), repoJson, &repo)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+type Org struct {
+	Id         string `json:"id,omitempty"`
+	OrgName    string `json:"orgname"`
+	FullName   string `json:"full_name"`
+	Location   string `json:"location"`
+	Company    string `json:"company"`
+	DateJoined string `json:"date_joined"`
+}
+
+func (c *Client) CreateOrganization(ctx context.Context) error {
+	org := Org{
+		OrgName: "hackathon22",
+	}
+	orgJson, err := json.Marshal(org)
 	if err != nil {
 		return err
 	}
 
-	fmt.Println(jsonrepo, repo)
+	err = c.sendRequest(ctx, "POST", fmt.Sprintf("/orgs/"), orgJson, &org)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(orgJson, org)
 
 	return nil
-
 }
 
 type HTTPMessageBody struct {
