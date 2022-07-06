@@ -31,8 +31,9 @@ func main() {
 		log.Fatal(err)
 	}
 	router.Listener = ln
+	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
 
-	router.GET("/repo", repo)
+	router.GET("/repo", c.repo)
 
 	log.Fatal(router.Start(startURL))
 }
@@ -56,8 +57,7 @@ type Repositories struct {
 	MaxResults   int
 }
 
-func repo (ctx echo.Context)  error {
-	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
+func (c *Client) repo (ctx echo.Context)  error {
 	repository := Repository{}
 	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/personal-repo-demo/"), nil, &repository)
 	if err != nil {
