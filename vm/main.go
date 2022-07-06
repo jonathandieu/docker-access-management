@@ -59,9 +59,9 @@ type Repositories struct {
 	MaxResults   int
 }
 
-func (c *Client) GetRepository(ctx echo.Context) error {
+func (c *Client) GetRepository(ctx echo.Context, namespace string, name string) error {
 	repository := Repository{}
-	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/hackathon22/"), nil, &repository)
+	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/%s/%s/", namespace, name), nil, &repository)
 	if err != nil {
 		return err
 	}
@@ -93,6 +93,12 @@ type Org struct {
 	DateJoined string `json:"date_joined"`
 }
 
+func (c *Client) GetOrganization(ctx context.Context, orgname string) (Org, error) {
+	org := Org{}
+	err := c.sendRequest(ctx, "GET", fmt.Sprintf("/orgs/%s/", orgname), nil, &org)
+
+	return org, err
+}
 func (c *Client) CreateOrganization(ctx context.Context, orgname string, company string) error {
 	org := Org{
 		OrgName: orgname,
