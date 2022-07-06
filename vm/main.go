@@ -59,6 +59,7 @@ type Repositories struct {
 	MaxResults   int
 }
 
+// Given the repository's namespace and the repository's name, get the repository
 func (c *Client) GetRepository(ctx echo.Context, namespace string, name string) error {
 	repository := Repository{}
 	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/%s/%s/", namespace, name), nil, &repository)
@@ -98,12 +99,29 @@ type Org struct {
 	DateJoined string `json:"date_joined"`
 }
 
+type Orgs struct {
+	User       string `json:"user,omitempty"`
+	Orgs       []Org  `json:"results"`
+	MaxResults int
+}
+
+func (c *Client) GetOrganizations(ctx context.Context, username string, maxresults int) (Orgs, error) {
+	orgs := Orgs{
+		User:       username,
+		MaxResults: maxresults,
+	}
+	err := c.sendRequest(ctx, "GET", fmt.Sprintf("/users/%s/orgs/?page_size=%d", username, maxresults), nil, &orgs)
+	return orgs, err
+}
+
 func (c *Client) GetOrganization(ctx context.Context, orgname string) (Org, error) {
 	org := Org{}
 	err := c.sendRequest(ctx, "GET", fmt.Sprintf("/orgs/%s/", orgname), nil, &org)
 
 	return org, err
 }
+
+// Given an orgname and company name, create a new Organization
 func (c *Client) CreateOrganization(ctx context.Context, orgname string, company string) error {
 	org := Org{
 		OrgName: orgname,
