@@ -19,7 +19,7 @@ func main() {
 	flag.Parse()
 
 	os.RemoveAll(socketPath)
-	
+
 	logrus.New().Infof("Starting listening on %s\n", socketPath)
 	router := echo.New()
 	router.HideBanner = true
@@ -41,6 +41,15 @@ func listen(path string) (net.Listener, error) {
 	return net.Listen("unix", path)
 }
 
+type Org struct {
+	Id         string `json:"id,omitempty"`
+	OrgName    string `json:"orgname"`
+	FullName   string `json:"full_name"`
+	Location   string `json:"location"`
+	Company    string `json:"company"`
+	DateJoined string `json:"date_joined"`
+}
+
 type Repository struct {
 	User            string `json:"user,omitempty"`
 	Name            string `json:"name"`
@@ -56,7 +65,7 @@ type Repositories struct {
 	MaxResults   int
 }
 
-func repo (ctx echo.Context)  error {
+func repo(ctx echo.Context) error {
 	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
 	repository := Repository{}
 	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/personal-repo-demo/"), nil, &repository)
