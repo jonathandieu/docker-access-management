@@ -67,10 +67,10 @@ func (c *Client) GetRepository(ctx echo.Context) error {
 	}
 	return ctx.JSON(http.StatusOK, repository)
 }
-func (c *Client) CreateRepository(ctx context.Context) error {
+func (c *Client) CreateRepository(ctx context.Context, name string, namespace string) error {
 	repo := Repository{
-		Name:      "hackathon22",
-		Namespace: "ryanhristovski",
+		Name:      name,
+		Namespace: namespace,
 	}
 	repoJson, err := json.Marshal(repo)
 	if err != nil {
@@ -93,9 +93,11 @@ type Org struct {
 	DateJoined string `json:"date_joined"`
 }
 
-func (c *Client) CreateOrganization(ctx context.Context) error {
+func (c *Client) CreateOrganization(ctx context.Context, orgname string, location string, company string) error {
 	org := Org{
-		OrgName: "hackathon22",
+		OrgName:  orgname,
+		Company:  company,
+		Location: location,
 	}
 	orgJson, err := json.Marshal(org)
 	if err != nil {
