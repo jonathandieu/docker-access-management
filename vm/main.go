@@ -84,6 +84,11 @@ func (c *Client) CreateRepository(ctx context.Context, name string, namespace st
 	return nil
 }
 
+// Given context and an id (repository name), returns an error that is nil on success
+func (c *Client) DeleteRepository(ctx context.Context, id string) error {
+	return c.sendRequest(ctx, "DELETE", fmt.Sprintf("/repositories/%s/", id), nil, nil)
+}
+
 type Org struct {
 	Id         string `json:"id,omitempty"`
 	OrgName    string `json:"orgname"`
