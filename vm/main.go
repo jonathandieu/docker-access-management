@@ -35,9 +35,7 @@ func main() {
 	router.Listener = ln
 	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
 
-	router.GET("/repo", c.repo)
-
-	router.POST("/orgs", c.createOrg)
+	router.GET("/repositories/", c.GetRepository)
 
 	log.Fatal(router.Start(startURL))
 }
@@ -70,9 +68,9 @@ type Repositories struct {
 	MaxResults   int
 }
 
-func (c *Client) repo(ctx echo.Context) error {
+func (c *Client) GetRepository(ctx echo.Context) error {
 	repository := Repository{}
-	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/personal-repo-demo/"), nil, &repository)
+	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/hackathon22/"), nil, &repository)
 	if err != nil {
 		return err
 	}
