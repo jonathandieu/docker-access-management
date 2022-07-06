@@ -93,11 +93,10 @@ type Org struct {
 	DateJoined string `json:"date_joined"`
 }
 
-func (c *Client) CreateOrganization(ctx context.Context, orgname string, location string, company string) error {
+func (c *Client) CreateOrganization(ctx context.Context, orgname string, company string) error {
 	org := Org{
-		OrgName:  orgname,
-		Company:  company,
-		Location: location,
+		OrgName: orgname,
+		Company: company,
 	}
 	orgJson, err := json.Marshal(org)
 	if err != nil {
