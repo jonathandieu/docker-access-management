@@ -2,6 +2,8 @@ package main
 
 import (
 	// "encoding/json"
+	"context"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -34,6 +36,8 @@ func main() {
 	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
 
 	router.GET("/repo", c.repo)
+
+	router.POST("/orgs", c.createOrg)
 
 	log.Fatal(router.Start(startURL))
 }
@@ -73,6 +77,27 @@ func (c *Client) repo(ctx echo.Context) error {
 		return err
 	}
 	return ctx.JSON(http.StatusOK, repository)
+}
+
+func (c *Client) CreateRepository(ctx context.Context) error {
+	repo := Repository{
+		Name:      "hackathon22",
+		Namespace: "ryanhristovski",
+	}
+	jsonrepo, err := json.Marshal(repo)
+	if err != nil {
+		return err
+	}
+
+	err = c.sendRequest(ctx, "POST", fmt.Sprintf("/repositories/"), jsonrepo, &repo)
+	if err != nil {
+		return err
+	}
+
+	fmt.Println(jsonrepo, repo)
+
+	return nil
+
 }
 
 type HTTPMessageBody struct {
