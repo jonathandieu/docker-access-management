@@ -41,11 +41,6 @@ func listen(path string) (net.Listener, error) {
 	return net.Listen("unix", path)
 }
 
-// type ProxyData struct {
-// 	Status int    `json:"status"`
-// 	Data   string `json:"data"`
-// }
-
 type Repository struct {
 	User            string `json:"user,omitempty"`
 	Name            string `json:"name"`
@@ -61,40 +56,14 @@ type Repositories struct {
 	MaxResults   int
 }
 
-// func proxy(ctx echo.Context) error {
-// 	url := ctx.QueryParam("url")
-// 	client := &http.Client{}
-// 	req, _ := http.NewRequest("GET", url, nil)
-// 	req.Header.Set("Search-Version", "v3")
-// 	resp, err := client.Do(req)
-// 	if err != nil {
-// 		return ctx.JSON(http.StatusOK, ProxyData{
-// 			Status: resp.StatusCode,
-// 			Data:   err.Error(),
-// 		})
-// 	}
-// 	body, err := ioutil.ReadAll(resp.Body)
-// 	if err != nil {
-// 		return ctx.JSON(http.StatusOK, ProxyData{
-// 			Status: 500,
-// 			Data:   err.Error(),
-// 		})
-// 	}
-// 	sb := string(body)
-// 	return ctx.JSON(http.StatusOK, ProxyData{
-// 		Status: resp.StatusCode,
-// 		Data:   sb,
-// 	})
-// }
-
 func repo (ctx echo.Context)  error {
-	c := NewClient("https://hub-stage.docker.com", "ryanhristovski", "Hackathon2022")
-	repositories := Repositories{}
-	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/u/%s/?page_size=%d", "ryanhristovski", 10), nil, &repositories)
+	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
+	repository := Repository{}
+	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/ryanhristovski/personal-repo-demo/"), nil, &repository)
 	if err != nil {
 		return err
 	}
-	return ctx.JSON(http.StatusOK, repositories)
+	return ctx.JSON(http.StatusOK, repository)
 }
 
 type HTTPMessageBody struct {
