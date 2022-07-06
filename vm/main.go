@@ -35,7 +35,8 @@ func main() {
 	router.Listener = ln
 	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
 
-	router.GET("/repositories/", c.GetRepository)
+	router.GET("/repositories/", c.GetRepositories)   // landing page for repositories
+	router.GET("/organizations/", c.GetOrganizations) // landing page for organizations
 
 	log.Fatal(router.Start(startURL))
 }
@@ -69,7 +70,7 @@ func (c *Client) GetRepositories(ctx context.Context, namespace string, maxResul
 }
 
 // Given the repository's namespace and the repository's name, get the repository
-func (c *Client) GetRepository(ctx echo.Context, namespace string, name string) error {
+func GetRepository(ctx echo.Context, namespace string, name string) error {
 	repository := Repository{}
 	err := c.sendRequest(ctx.Request().Context(), "GET", fmt.Sprintf("/repositories/%s/%s/", namespace, name), nil, &repository)
 	if err != nil {
