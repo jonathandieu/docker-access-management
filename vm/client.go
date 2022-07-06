@@ -62,7 +62,7 @@ func (c *Client) sendRequest(ctx context.Context, method string, url string, bod
 	if err != nil {
 		return err
 	}
-	req, err := http.NewRequest("POST", fmt.Sprintf("%s/v2/users/login/", c.BaseURL), bytes.NewBuffer(authJson))
+	req, err := http.NewRequest("POST", fmt.Sprintf("%s/users/login/", c.BaseURL), bytes.NewBuffer(authJson))
 	if err != nil {
 		return err
 	}
