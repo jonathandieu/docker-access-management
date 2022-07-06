@@ -54,9 +54,18 @@ type Repository struct {
 	FullDescription string `json:"full_description,omitempty"`
 }
 type Repositories struct {
-	User         string                 `json:"user,omitempty"`
-	Repositories map[string]interface{} `json:"results"`
+	User         string       `json:"user,omitempty"`
+	Repositories []Repository `json:"results"`
 	MaxResults   int
+}
+
+func (c *Client) GetRepositories(ctx context.Context, namespace string, maxResults int) (Repositories, error) {
+	repositories := Repositories{
+		User:       namespace,
+		MaxResults: maxResults,
+	}
+	err := c.sendRequest(ctx, "GET", fmt.Sprintf("/repositories/%s/?page_size=%d", namespace, maxResults), nil, &repositories)
+	return repositories, err
 }
 
 // Given the repository's namespace and the repository's name, get the repository
