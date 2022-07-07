@@ -56,16 +56,40 @@ export function App() {
       Have you ever wished that this could all be done from Docker Desktop? Wish no longer!
       </Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-        Pressing the below button will trigger a request to the backend. Its
-        response will appear in the textarea.
+        Pressing the below buttons will trigger a request to DockerHub and make actual changes! Its
+        response will appear in the Response Status Box.
       </Typography>
+      <br></br>
       {/* <Tester /> */}
       <RepoButtons />
+            <div>
+        <Typography sx={{marginTop: 5}}variant="h2"> Example Repos: </Typography>
+      <TableContainer component={Paper}>
+        <Table sx={{minWidth: 650 }} aria-label='repo-table'>
+          <TableHead>
+            <TableRow sx={{marginBottom:1}}>
+              <TableCell> chefjon/spaghetti </TableCell>
+            </TableRow>
+            <TableRow>
+           <TableCell>chefjon/oh-wow</TableCell>
+            </TableRow>
+            <TableRow>
+           <TableCell>chefjon/such-repo</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>chefjon/personal-repo-demo</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      </div>
       <br></br>
       <OrgButtons />
       {/* <Tester /> */}
       <div>
-        <Typography variant="h2">Get Repos Data:</Typography>
+        {/* <Typography variant="h2">Get Repos Data:</Typography> */}
         <TableContainer component={Paper}>
       <Table>
           <TableRow>
@@ -75,26 +99,7 @@ export function App() {
         </TableContainer>
       </div>
 
-      <div>
-        <Typography sx={{marginTop: 5}}variant="h2"> Example: </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{minWidth: 650 }} aria-label='repo-table'>
-          <TableHead>
-            <TableRow sx={{marginBottom:1}}>
-              <TableCell> mobythewhale/my-first-repo </TableCell>
-            </TableRow>
-            <TableRow>
-           <TableCell>mobythewhale/my-second-repo</TableCell>
-            </TableRow>
-            <TableRow>
-              <TableCell>mobythewhale/my-third-repo</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-          </TableBody>
-        </Table>
-      </TableContainer>
-      </div>
+
 
     </>
   );
