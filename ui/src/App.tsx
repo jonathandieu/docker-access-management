@@ -43,8 +43,8 @@ export function App() {
     const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
     setResponse(JSON.stringify(result));
     var data = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
-    setHeaders(Object.keys(data[0])); // table header
-    setBodies(Object.values(data[0])); // table body
+    setHeaders(Object.keys(data)); // table header
+    setBodies(Object.values(data)); // table body
   };
 
   const createRepository = async () => {
@@ -66,8 +66,8 @@ export function App() {
     const result = await ddClient.extension.vm?.service?.get('/organization?org_name=dockerhackathon');
     setResponse(JSON.stringify(result));
     var data = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
-    setHeaders(Object.keys(data[0])); // table header
-    setBodies(Object.values(data[0])); // table body
+    setHeaders(Object.keys(data)); // table header
+    setBodies(Object.values(data)); // table body
   };
 
   const getOrganizations = async () => {
