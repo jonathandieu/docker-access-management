@@ -19,7 +19,7 @@ export function App() {
   const ddClient = useDockerDesktopClient();
   const [headers, setHeaders] = React.useState<string[]>();
   const [bodies, setBodies] = React.useState<string[]>();
-
+  const [response, setResponse] = React.useState<string>();
 
   // 	// Repos routes
 	// router.GET("/repositories", c.GetRepositories)
@@ -33,13 +33,22 @@ export function App() {
 	// router.GET("/organization", c.GetOrganization)
 
 
+  const getRepositories = async () => {
+    const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
+    setResponse(JSON.stringify(result));
+    var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
+    setHeaders(Object.keys(data[0])); // table header
+    setBodies(Object.values(data[0])); // table body
+  };
   return (
     <>
     <Navbar />
 
+
       <Typography variant="h3">Docker Access Management (DAM)</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
-      Is the process of having to open a new browser, navigating to Dockerhub.com, and signing in, 
+      Is the process of having to open a new browser, navigating to Dockerhub.com, and signing in,
       all just to access your repositories and organizations a pain?
       Have you ever wished that this could all be done from Docker Desktop? Wish no longer!
       </Typography>
@@ -54,7 +63,7 @@ export function App() {
         <TableContainer component={Paper}>
       <Table>
           <TableRow>
-            <TableCell>{headers[0] } : {bodies} </TableCell>
+            {/* <TableCell>{headers[0] } : {bodies} </TableCell> */}
           </TableRow>
         </Table>
         </TableContainer>
@@ -69,7 +78,7 @@ export function App() {
               <TableCell> mobythewhale/my-first-repo </TableCell>
             </TableRow>
             <TableRow>
-           <TableCell>mobythewhale/my-second-repo</TableCell>   
+           <TableCell>mobythewhale/my-second-repo</TableCell>
             </TableRow>
             <TableRow>
               <TableCell>mobythewhale/my-third-repo</TableCell>
