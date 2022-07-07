@@ -28,7 +28,7 @@ func main() {
 		log.Fatal(err)
 	}
 	router.Listener = ln
-	c := NewClient("https://hub-stage.docker.com/v2", "ryanhristovski", "Hackathon2022")
+	c := NewClient("https://hub-stage.docker.com/v2", "chefjon", "Hackathon2022")
 
 	// Repos routes
 	router.GET("/repositories", c.GetRepositories)

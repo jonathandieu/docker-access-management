@@ -21,7 +21,7 @@ const getOrganization = async () => {
   };
 
   const getOrganizations = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
+    const result = await ddClient.extension.vm?.service?.get('/organizations?username=chefjon&max_results=25');
     setResponse(JSON.stringify(result));
   };
 
