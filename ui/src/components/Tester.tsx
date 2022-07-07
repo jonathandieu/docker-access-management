@@ -57,7 +57,7 @@ export default function Tester() {
     return (
         <>
      <div>
-      <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }}>
+      <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }} mb={{mt: 3}}>
         <Button variant="contained" onClick={getRepository}>
           Get Repository
         </Button>

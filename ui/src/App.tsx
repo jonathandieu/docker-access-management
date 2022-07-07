@@ -6,6 +6,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import { stringify } from 'querystring';
 import Tester from './components/Tester';
+import RepoButtons from './components/RepoButtons'
+import OrgButtons from './components/OrgButtons'
 
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
@@ -47,8 +49,7 @@ export function App() {
     <>
     <Navbar />
 
-
-      <Typography variant="h3">Docker Access Management (DAM)</Typography>
+      <Typography variant="h1" style={{ fontWeight: 600}}>Docker Access Management (DAM)</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
       Is the process of having to open a new browser, navigating to Dockerhub.com, and signing in,
       all just to access your repositories and organizations a pain?
@@ -58,14 +59,17 @@ export function App() {
         Pressing the below button will trigger a request to the backend. Its
         response will appear in the textarea.
       </Typography>
-      <Tester />
-      <Tester />
+      {/* <Tester /> */}
+      <RepoButtons />
+      <br></br>
+      <OrgButtons />
+      {/* <Tester /> */}
       <div>
         <Typography variant="h2">Get Repos Data:</Typography>
         <TableContainer component={Paper}>
       <Table>
           <TableRow>
-            <TableCell>{headers[0] } : {bodies} </TableCell>
+            {/* <TableCell>{headers[0] } : {bodies} </TableCell> */}
           </TableRow>
         </Table>
         </TableContainer>
