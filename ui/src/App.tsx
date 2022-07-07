@@ -1,8 +1,9 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
-import { Stack, TextField, Typography } from '@mui/material';
+import { Stack, Table, TableBody, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import Navbar from './components/Navbar';
+import { stringify } from 'querystring';
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
@@ -14,6 +15,8 @@ function useDockerDesktopClient() {
 export function App() {
   const [response, setResponse] = React.useState<string>();
   const ddClient = useDockerDesktopClient();
+  const [headers, setHeaders] = React.useState<string[]>();
+  const [bodies, setBodies] = React.useState<string[]>();
 
 
   // 	// Repos routes
@@ -30,6 +33,10 @@ export function App() {
   const getRepositories = async () => {
     const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
+    var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
+    setHeaders(Object.keys(data[0])); // table header
+    setBodies(Object.values(data[0])); // table body
   };
 
   const getRepository = async () => {
@@ -115,10 +122,22 @@ export function App() {
           variant="outlined"
           minRows={5}
           value={response ?? ''}
-        />        
-
+        />       
 
       </Stack>
+
+      <div>
+      <Table>
+          <TableRow>
+            <TableHead>{ headers[0] }</TableHead>
+            <TableHead>foo</TableHead>
+          </TableRow>
+          <TableRow>
+            <TableBody>{ bodies }</TableBody>
+            <TableBody>bar</TableBody>
+          </TableRow>
+        </Table>
+      </div>
     </>
   );
 }
