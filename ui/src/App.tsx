@@ -41,6 +41,8 @@ export function App() {
     setHeaders(Object.keys(data[0])); // table header
     setBodies(Object.values(data[0])); // table body
   };
+
+  getRepositories()
   return (
     <>
     <Navbar />
@@ -63,7 +65,7 @@ export function App() {
         <TableContainer component={Paper}>
       <Table>
           <TableRow>
-            {/* <TableCell>{headers[0] } : {bodies} </TableCell> */}
+            <TableCell>{headers[0] } : {bodies} </TableCell>
           </TableRow>
         </Table>
         </TableContainer>
