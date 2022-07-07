@@ -50,11 +50,16 @@ export function App() {
   const createRepository = async () => {
     const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
     setResponse(JSON.stringify(result));
+    setHeaders(["Created", " "]); // effectively blank so it doesn't display other button's results
+    setBodies([" ", " "]); // blank so it doesn't display other button's results
   };
 
   const deleteRepository = async () => {
     const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryanhristovski&name=test-this');
     setResponse(JSON.stringify(result));
+    var data = JSON.parse(JSON.stringify(result));
+    setHeaders(data); // effectively blank so it doesn't display other button's results
+    setBodies([""]); // blank so it doesn't display other button's results
   };
 
   const getOrganization = async () => {
@@ -77,6 +82,8 @@ export function App() {
   const createOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
     setResponse(JSON.stringify(result));
+    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
+    setBodies(["...", "..."]); // blank so it doesn't display other button's results
   };
 
   return (
