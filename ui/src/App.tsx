@@ -62,7 +62,6 @@ export function App() {
     setResponse(JSON.stringify(result));
   };
 
-
   return (
     <>
     <Navbar />
