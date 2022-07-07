@@ -36,6 +36,6 @@ LABEL org.opencontainers.image.title="DAM" \
 COPY --from=builder /backend/bin/service /
 COPY docker-compose.yaml .
 COPY metadata.json .
-COPY docker.svg .
+COPY securecrab.png .
 COPY --from=client-builder /ui/build ui
 CMD /service -socket /run/guest-services/extension-DAM.sock
