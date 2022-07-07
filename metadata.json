@@ -1,5 +1,5 @@
 {
-  "icon": "securecrab.png",
+  "icon": "crabcontainer.svg",
   "vm": {
     "composefile": "docker-compose.yaml",
     "exposes": {
