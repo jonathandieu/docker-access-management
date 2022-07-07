@@ -73,6 +73,7 @@ export function App() {
   const getOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
+
     var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
     var data = Object.values(obj)[0]; // JS Object -> Array of JS Objects -> JS Object = the actual results (each object's values is a table body row)
     setHeaders(Object.keys(data[0])); // table header
@@ -82,8 +83,8 @@ export function App() {
   const createOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
     setResponse(JSON.stringify(result));
-    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
-    setBodies(["...", "..."]); // blank so it doesn't display other button's results
+    setHeaders(["Created", " "]); // effectively blank so it doesn't display other button's results
+    setBodies([" ", " "]); // blank so it doesn't display other button's results
   };
 
   return (
