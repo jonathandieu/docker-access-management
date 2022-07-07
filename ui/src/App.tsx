@@ -3,8 +3,10 @@ import Button from '@mui/material/Button';
 import { createDockerDesktopClient } from '@docker/extension-api-client';
 import { Card, CardContent, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from '@mui/material';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import { stringify } from 'querystring';
-import ShieldIcon  from '@mui/material/Icon';
+import Tester from './components/Tester';
+
 // Note: This line relies on Docker Desktop's presence as a host application.
 // If you're running this React app in a browser, it won't work properly.
 const client = createDockerDesktopClient();
@@ -14,7 +16,6 @@ function useDockerDesktopClient() {
 }
 
 export function App() {
-  const [response, setResponse] = React.useState<string>();
   const ddClient = useDockerDesktopClient();
   const [headers, setHeaders] = React.useState<string[]>();
   const [bodies, setBodies] = React.useState<string[]>();
@@ -31,50 +32,12 @@ export function App() {
 	// router.GET("/organization", c.GetOrganization)
 	// router.GET("/organization", c.GetOrganization)
 
-  const getRepositories = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
-    setResponse(JSON.stringify(result));
-    var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
-    var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
-    setHeaders(Object.keys(data[0])); // table header
-    setBodies(Object.values(data[0])); // table body
-  };
-
-  const getRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
-    setResponse(JSON.stringify(result));
-  };
-
-  const createRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
-    setResponse(JSON.stringify(result));
-  };
-
-  const deleteRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryanhristovski&name=test-this');
-    setResponse(JSON.stringify(result));
-  };
-
-  const getOrganization = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/organization?org_name=dockerhackathon');
-    setResponse(JSON.stringify(result));
-  };
-
-  const getOrganizations = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
-    setResponse(JSON.stringify(result));
-  };
-
-  const createOrganizations = async () => {
-    const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
-    setResponse(JSON.stringify(result));
-  };
-
 
   return (
     <>
     <Navbar />
-      <Typography variant="h3">Docker Access Management D.A.M</Typography>
+
+      <Typography variant="h3">Docker Access Management (DAM)</Typography>
       <Typography variant="body1" color="text.secondary" sx={{ mt: 2 }}>
       Is the process of having to open a new browser, navigating to Dockerhub.com, and signing in, 
       all just to access your repositories and organizations a pain?
@@ -84,48 +47,8 @@ export function App() {
         Pressing the below button will trigger a request to the backend. Its
         response will appear in the textarea.
       </Typography>
-
-      <Stack direction="row" alignItems="start" spacing={2} sx={{ mt: 4 }}>
-        <Button variant="contained" onClick={getRepository}>
-          Get Repository
-        </Button>
-
-        <Button variant="contained" onClick={getRepositories}>
-          Get Repositories
-        </Button>      
-
-        <Button variant="contained" onClick={createRepository}>
-          Create Repository
-        </Button>         
-
-        <Button variant="contained" onClick={deleteRepository}>
-          Delete Repository
-        </Button>         
-
-        <Button variant="contained" onClick={getOrganizations}>
-          Get Organizations
-        </Button>
-
-        <Button variant="contained" onClick={getOrganization}>
-          Get Organization
-        </Button>        
-
-        <Button variant="contained" onClick={createOrganizations}>
-          Create Organization
-        </Button>        
-
-        <TextField
-          label="Orgs response"
-          sx={{ width: 480 }}
-          disabled
-          multiline
-          variant="outlined"
-          minRows={5}
-          value={response ?? ''}
-        />       
-
-      </Stack>
-
+      <Tester />
+      <Tester />
       <div>
         <Typography variant="h2">Get Repos Data:</Typography>
         <TableContainer component={Paper}>
