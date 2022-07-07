@@ -33,10 +33,10 @@ export function App() {
   const getRepositories = async () => {
     const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
-    var s = JSON.parse(JSON.stringify(result));
-    var data = Object.values(s)[0];
-    setHeaders(Object.keys(data[0]));
-    setBodies(Object.values(data[0]));
+    var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
+    setHeaders(Object.keys(data[0])); // table header
+    setBodies(Object.values(data[0])); // table body
   };
 
   const getRepository = async () => {
