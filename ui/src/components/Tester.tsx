@@ -16,7 +16,7 @@ export default function Tester() {
 
 
   const getRepositories = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
+    const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=chefjon&max_results=25');
     setResponse(JSON.stringify(result));
     var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
     var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
@@ -25,17 +25,17 @@ export default function Tester() {
   };
 
   const getRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
+    const result = await ddClient.extension.vm?.service?.get('/repository?namespace=chefjon&name=personal-repo-demo');
     setResponse(JSON.stringify(result));
   };
 
   const createRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
+    const result = await ddClient.extension.vm?.service?.post('/repository?namespace=chefjon&name=test-this', "");
     setResponse(JSON.stringify(result));
   };
 
   const deleteRepository = async () => {
-    const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryanhristovski&name=test-this');
+    const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryachefjonnhristovski&name=test-this');
     setResponse(JSON.stringify(result));
   };
 
@@ -45,7 +45,7 @@ export default function Tester() {
   };
 
   const getOrganizations = async () => {
-    const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
+    const result = await ddClient.extension.vm?.service?.get('/organizations?username=chefjon&max_results=25');
     setResponse(JSON.stringify(result));
   };
 
