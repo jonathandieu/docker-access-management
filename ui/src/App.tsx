@@ -43,15 +43,15 @@ export function App() {
     const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
     setResponse(JSON.stringify(result));
     var data = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
-    setHeaders(Object.keys(data)); // table header
-    setBodies(Object.values(data)); // table body
+    setHeaders(Object.keys(data)); // JS Object -> Array of Strings // table header
+    setBodies(Object.values(data)); // JS Object -> Array of Strings // table body
   };
 
   const createRepository = async () => {
     const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
     setResponse(JSON.stringify(result));
-    setHeaders(["Created", " "]); // effectively blank so it doesn't display other button's results
-    setBodies([" ", " "]); // blank so it doesn't display other button's results
+    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
+    setBodies(["...", "..."]); // blank so it doesn't display other button's results
   };
 
   const deleteRepository = async () => {
@@ -83,8 +83,8 @@ export function App() {
   const createOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
     setResponse(JSON.stringify(result));
-    setHeaders(["Created", " "]); // effectively blank so it doesn't display other button's results
-    setBodies([" ", " "]); // blank so it doesn't display other button's results
+    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
+    setBodies(["...", "..."]); // blank so it doesn't display other button's results
   };
 
   return (
