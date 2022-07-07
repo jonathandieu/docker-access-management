@@ -34,7 +34,7 @@ export function App() {
     const result = await ddClient.extension.vm?.service?.get('/repositories?namespace=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
     var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
-    var data = Object.values(obj)[0]; // JS Object -> Array -> JS Object
+    var data = Object.values(obj)[0]; // JS Object -> Array of JS Objects -> JS Object
     setHeaders(Object.keys(data[0])); // table header
     setBodies(Object.values(data[0])); // table body
   };
@@ -42,33 +42,50 @@ export function App() {
   const getRepository = async () => {
     const result = await ddClient.extension.vm?.service?.get('/repository?namespace=ryanhristovski&name=personal-repo-demo');
     setResponse(JSON.stringify(result));
+    var data = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    setHeaders(Object.keys(data)); // JS Object -> Array of Strings // table header
+    setBodies(Object.values(data)); // JS Object -> Array of Strings // table body
   };
 
   const createRepository = async () => {
     const result = await ddClient.extension.vm?.service?.post('/repository?namespace=ryanhristovski&name=test-this', "");
     setResponse(JSON.stringify(result));
+    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
+    setBodies(["...", "..."]); // blank so it doesn't display other button's results
   };
 
   const deleteRepository = async () => {
     const result = await ddClient.extension.vm?.service?.delete('/repository?namespace=ryanhristovski&name=test-this');
     setResponse(JSON.stringify(result));
+    var data = JSON.parse(JSON.stringify(result));
+    setHeaders(data); // effectively blank so it doesn't display other button's results
+    setBodies([""]); // blank so it doesn't display other button's results
   };
 
   const getOrganization = async () => {
     const result = await ddClient.extension.vm?.service?.get('/organization?org_name=dockerhackathon');
     setResponse(JSON.stringify(result));
+    var data = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    setHeaders(Object.keys(data)); // table header
+    setBodies(Object.values(data)); // table body
   };
 
   const getOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.get('/organizations?username=ryanhristovski&max_results=25');
     setResponse(JSON.stringify(result));
+
+    var obj = JSON.parse(JSON.stringify(result)); // JSON -> string -> JS Object
+    var data = Object.values(obj)[0]; // JS Object -> Array of JS Objects -> JS Object = the actual results (each object's values is a table body row)
+    setHeaders(Object.keys(data[0])); // table header
+    setBodies(Object.values(data[0])); // table body (note this only gets the first result)
   };
 
   const createOrganizations = async () => {
     const result = await ddClient.extension.vm?.service?.post('/organization?org_name=test-create&company=dam', "");
     setResponse(JSON.stringify(result));
+    setHeaders(["Created", "..."]); // effectively blank so it doesn't display other button's results
+    setBodies(["...", "..."]); // blank so it doesn't display other button's results
   };
-
 
   return (
     <>
@@ -129,7 +146,7 @@ export function App() {
       <div>
       <Table>
           <TableRow>
-            <TableHead>{ headers[0] }</TableHead>
+            <TableHead>{ headers }</TableHead>
             <TableHead>foo</TableHead>
           </TableRow>
           <TableRow>
